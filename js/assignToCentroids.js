@@ -1,3 +1,0 @@
-const assignToCentroids = (imgData, k) => {
-  
-};

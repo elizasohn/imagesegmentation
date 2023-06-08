@@ -48,22 +48,16 @@ const draw = () => {
   };
   
   const getShardMeans = (composite, shardLength) => {
-    console.log('comp length', composite.length);
-    console.log('shardLenght', shardLength);
     const shardMeans = [];
     for (let start = 0; start < composite.length; start += shardLength) {
       const cloneComposite = composite.slice(0);
-      console.log('clone comp', cloneComposite);
       const shard = cloneComposite.slice(start, (start + shardLength));
-      console.log('shard,', shard);
       const shardMean = shard[Math.round((shard.length - 1) / 2)];
-      console.log('shard mean', shardMean);
       shardMeans.push(shardMean);
     };
     shardMeans.forEach((mean) => {
       mean.pop();
     })
-    console.log('final shardMeans', shardMeans);
     return shardMeans;
   }
 
@@ -76,8 +70,6 @@ const draw = () => {
       row.push(sum);
     });
     composite.sort((a, b) => b[3] - a[3]);
-    console.log('comp sort', composite);
-    console.log('rgb', imgRGBData);
     const shardLength = (composite.length / k);
     const shardMeans = getShardMeans(composite, shardLength);
     return shardMeans;
@@ -86,7 +78,6 @@ const draw = () => {
   const imgRGBData = [];
 
   const createRGBPixelData = () => {
-    console.log('img data length', imgData.data.length);
     for (let i = 0; i < imgData.data.length; i += 4) {
       const r = imgData.data[i];
       const g = imgData.data[i + 1];
@@ -98,7 +89,6 @@ const draw = () => {
 
   const createCanvasData = (newRGBData, width, height) => {
     const canvasData = [];
-    console.log('test rgb', newRGBData[500]);
     for (let i = 0; i < newRGBData.length; i += 1) {
       for (let j = 0; j < 4; j += 1) {
         if (j < 3) {
@@ -212,21 +202,8 @@ const draw = () => {
       assignments = assignToCentroids(imgRGBData, centroids);
       centroids = recalculateCentroids(imgRGBData, assignments, k);
     }
-    // const clusters = [];
-    // for (let i = 0; i < k; i += 1) {
-    //   clusters.push(assignments[i]);
-    // }
-
-    // const results = {
-    //   clusters: clusters,
-    //   centroids: centroids,
-    //   iterations: iterations,
-    // };
-
-    // console.log('assignments', assignments);
     console.log('imgRGBdata', imgRGBData);
     const newRGBData = updateImgData(assignments, imgRGBData, k);
-    // console.log('new rgb data', newRGBData);
     const canvasData = createCanvasData(newRGBData, canvas.width, canvas.height);
     return canvasData;
   }
@@ -247,7 +224,6 @@ const draw = () => {
     ctx.putImageData(canvasData, 0, 0);
     hideLoading();
   };
-
 
   img.onload = () => {
     drawImage(img);
@@ -272,9 +248,5 @@ const draw = () => {
     submitDiv.addEventListener('click', () => {
       showLoading();
     })
-    
-    // const canvasData = runKmeans(imgRGBData, 5, 2, canvas.width, canvas.height);
-    // console.log('canvas data after kmeans: ', canvasData);
-    // ctx.putImageData(canvasData, 0, 0);
   };
 };
