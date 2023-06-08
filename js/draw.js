@@ -12,13 +12,24 @@ const draw = () => {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const img = new Image(100, 100);
+  
+  // comment out following line to try with popsicle
   img.src = '../images/craterlake.jpeg';
+
+  // un comment following line to try with popsicle
+  // img.src = '../images/popsicle.jpeg';
+
   img.crossOrigin = 'Anonymous';
   let imgData;
 
   const drawImage = (img) => {
+    // comment out following two lines to try with popsicle
     canvas.width = img.naturalWidth/1.5;
-    canvas.height = img.naturalHeight/1.5;
+    canvas.height = img.naturalHeight / 1.5;
+    
+    // uncomment following two lines to try with popsicle
+    // canvas.width = img.naturalWidth/4;
+    // canvas.height = img.naturalHeight/4;
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   }
 
@@ -190,7 +201,10 @@ const draw = () => {
     let oldCentroids, assignments, centroids;
 
     //initialize centroids
+    // uncomment following line to use with random initial centroids
     // centroids = selectInitialCentroids(imgRGBData, k);
+
+    //comment out following line to use with random initial centroids
     centroids = initializeCentroidsNaiveSharding(imgRGBData, k);
 
     // run algorithm
