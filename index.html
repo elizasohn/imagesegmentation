@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Segmentation</title>
     <link rel="stylesheet" href="../styles.css" />
+    <script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="../js/draw.js"></script>
   </head>
   <body onload="draw();">
@@ -13,9 +14,61 @@
       <div class="img-container">
         <canvas id="canvas"></canvas>
       </div>
-      <div></div>
-      <div>
-        <h3>K Value</h3>
+      <div class="slider-container">
+        <div class="slider">
+          <div class="slider-first">
+            <label for="k-fader">K Value</label>
+          </div>
+          <div class="slider-second">
+            <input type="range" min="2" max="16" value="5" id="k-fader" step="1" list="ksettings">
+            <datalist id="ksettings">
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+            </datalist>
+          </div>
+        </div>
+      </div>
+      <div class="slider-container">
+        <div class="slider">
+          <div class="slider-first">
+            <label for="i-fader">Iterations</label>
+          </div>
+          <div class="slider-second">
+            <input type="range" min="2" max="20" value="5" id="i-fader" step="2" list="isettings">
+            <datalist id="isettings">
+              <option>2</option>
+              <option>4</option>
+              <option>6</option>
+              <option>8</option>
+              <option>10</option>
+              <option>12</option>
+              <option>14</option>
+              <option>16</option>
+              <option>18</option>
+              <option>20</option>
+            </datalist>
+          </div>
+        </div>
+      </div>
+      <div class="submit-container">
+        <div class="submit">
+          <a>Run K Means</a>
+        </div>
+        <div class="loading hidden">
+        </div>
       </div>
     </main>
   </body>
