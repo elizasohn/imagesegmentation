@@ -28,7 +28,7 @@ const draw = () => {
     
   }
 
-  const selectInitialCentroids = (imgRGBData, k) => {
+  const selectInitialCentroidsRandom = (imgRGBData, k) => {
     const centroidsIndex = [];
     let index;
     for (let i = 0; i < k; i += 1) {
@@ -46,10 +46,41 @@ const draw = () => {
     }
     return centroids;
   };
+  
+  const getShardMeans = (composite, shardLength) => {
+    console.log('comp length', composite.length);
+    console.log('shardLenght', shardLength);
+    const shardMeans = [];
+    for (let start = 0; start < composite.length; start += shardLength) {
+      const cloneComposite = composite.slice(0);
+      console.log('clone comp', cloneComposite);
+      const shard = cloneComposite.slice(start, (start + shardLength));
+      console.log('shard,', shard);
+      const shardMean = shard[Math.round((shard.length - 1) / 2)];
+      console.log('shard mean', shardMean);
+      shardMeans.push(shardMean);
+    };
+    shardMeans.forEach((mean) => {
+      mean.pop();
+    })
+    console.log('final shardMeans', shardMeans);
+    return shardMeans;
+  }
 
   const initializeCentroidsNaiveSharding = (imgRGBData, k) => {
     const centroidsIndex = [];
     let index;
+    const composite = JSON.parse(JSON.stringify(imgRGBData));
+    composite.forEach((row) => {
+      const sum = row.reduce((a, b) => a + b, 0);
+      row.push(sum);
+    });
+    composite.sort((a, b) => b[3] - a[3]);
+    console.log('comp sort', composite);
+    console.log('rgb', imgRGBData);
+    const shardLength = (composite.length / k);
+    const shardMeans = getShardMeans(composite, shardLength);
+    return shardMeans;
   }
 
   const imgRGBData = [];
@@ -149,6 +180,7 @@ const draw = () => {
   }
 
   const updateImgData = (assignments, imgRGBData, k) => {
+    console.log('img RGB data 188: ', imgRGBData);
     const newRGBData = [];
     for (const element of imgRGBData) {
       newRGBData.push(0);
@@ -168,7 +200,8 @@ const draw = () => {
     let oldCentroids, assignments, centroids;
 
     //initialize centroids
-    centroids = selectInitialCentroids(imgRGBData, k);
+    // centroids = selectInitialCentroids(imgRGBData, k);
+    centroids = initializeCentroidsNaiveSharding(imgRGBData, k);
 
     // run algorithm
     while (iterations < maxIterations) {
@@ -191,6 +224,7 @@ const draw = () => {
     // };
 
     // console.log('assignments', assignments);
+    console.log('imgRGBdata', imgRGBData);
     const newRGBData = updateImgData(assignments, imgRGBData, k);
     // console.log('new rgb data', newRGBData);
     const canvasData = createCanvasData(newRGBData, canvas.width, canvas.height);
